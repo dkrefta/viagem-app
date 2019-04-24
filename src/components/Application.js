@@ -26,11 +26,8 @@ class Application extends Component {
   };
 
   addItem = item => {
-    this.setState({ items: [item, ...this.state.items] });
-  };
-  removeItem = itemToRemove => {
     this.setState({
-      item: this.state.items.filter(item => item.id !== itemToRemove.id)
+      items: [item, ...this.state.items]
     });
   };
 
@@ -39,25 +36,33 @@ class Application extends Component {
       if (item.id !== itemToToggle) return item;
       return { ...itemToToggle, packed: !itemToToggle.packed };
     });
-    this.setState({ items });
+    this.setState({
+      items
+    });
+  };
+  removeItem = itemToRemove => {
+    this.setState({
+      items: this.state.items.filter(item => item.id !== itemToRemove.id)
+    });
+  };
+  markAsPacked = item => {
+    const otherItems = this.state.items.filter(other => other.id !== item.id);
+    const updatedItem = { ...item, packed: !item.packed };
+    this.setState({ items: [updatedItem, ...otherItems] });
   };
 
   markAllAsUnpacked = () => {
-    const items = this.state.items.map(item => {
-      return { ...item, packed: false };
-    });
+    const items = this.state.items.map(item => ({ ...item, packed: false }));
     this.setState({ items });
-  }
-
+  };
   render() {
     const { items } = this.state;
     const unpackedItems = items.filter(item => !item.packed);
     const packedItems = items.filter(item => item.packed);
-
     return (
       <div className="Application">
         <NewItem onSubmit={this.addItem} />
-        <CountDown />
+        <CountDown {...this.state} />
         <Items
           title="Unpacked Items"
           items={unpackedItems}
@@ -70,10 +75,12 @@ class Application extends Component {
           onRemove={this.removeItem}
           onToggle={this.toggleItem}
         />
-        <button className="button full-width" onClick={this.markAllAsUnpacked}>Mark All As Unpacked</button>
+
+        <button className="button full-width" onClick={this.markAllAsUnpacked}>
+          Mark All As Unpacked
+        </button>
       </div>
     );
   }
 }
-
 export default Application;

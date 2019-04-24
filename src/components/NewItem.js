@@ -1,26 +1,25 @@
-import React, { Component } from 'react';
-import uniqueId from 'lodash/uniqueId';
+import React, { Component } from "react";
+import uniqueId from "lodash/uniqueId";
 
-import './NewItem.css';
+import "./NewItem.css";
 
 class NewItem extends Component {
-  state = { value: '' };
+  state = { value: "" };
 
   handleChange = event => {
     const value = event.target.value;
-    this.setState({ value });
+    this.setState({ value})
   };
 
   handleSubmit = event => {
     const { onSubmit } = this.props;
     const { value } = this.state;
-    this.setState({
-      value
-    });
 
     event.preventDefault();
-    onSubmit({ value, id: uniqueId, packed: false });
+
+    onSubmit({value, id: uniqueId, packed: false});
     this.setState({ value: ''})
+
   };
 
   render() {
