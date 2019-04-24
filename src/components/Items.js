@@ -4,13 +4,13 @@ import Filter from './Filter';
 
 class Items extends Component {
   state = {
-    // What state does this component have?
+    item: ''
   };
 
   updateSearchTerm = searchTerm => {};
 
   render() {
-    const { title, items } = this.props;
+    const { title, items, onRemove, onToggle } = this.props;
     return (
       <section className="Items">
         <h2>
@@ -20,13 +20,13 @@ class Items extends Component {
         {items
           .filter(item =>
             // Hmm… this needs some work.
-            item.value.toLowerCase().includes(''.toLowerCase()),
+            item.value.toLowerCase().includes(''.toLowerCase())
           )
           .map(item => (
             <Item
               key={item.id}
-              onCheckOff={() => {}}
-              onRemove={() => {}}
+              onToggle={onToggle}
+              onRemove={() => onRemove(item)}
               item={item}
             />
           ))}
