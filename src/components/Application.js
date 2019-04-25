@@ -31,51 +31,46 @@ class Application extends Component {
     });
   };
 
-  toggleItem = itemToToggle => {
-    const items = this.state.items.map(item => {
-      if (item.id !== itemToToggle) return item;
-      return { ...itemToToggle, packed: !itemToToggle.packed };
-    });
-    this.setState({
-      items
-    });
-  };
   removeItem = itemToRemove => {
     this.setState({
       items: this.state.items.filter(item => item.id !== itemToRemove.id)
     });
-  };
-  markAsPacked = item => {
-    const otherItems = this.state.items.filter(other => other.id !== item.id);
-    const updatedItem = { ...item, packed: !item.packed };
-    this.setState({ items: [updatedItem, ...otherItems] });
   };
 
   markAllAsUnpacked = () => {
     const items = this.state.items.map(item => ({ ...item, packed: false }));
     this.setState({ items });
   };
+
+  markAsPacked = item => {
+    const otherItems = this.state.items.filter(other => other.id !== item.id);
+    const updatedItem = { ...item, packed: !item.packed };
+    this.setState({ items: [updatedItem, ...otherItems] });
+  };
+
   render() {
     const { items } = this.state;
     const unpackedItems = items.filter(item => !item.packed);
     const packedItems = items.filter(item => item.packed);
+
     return (
       <div className="Application">
         <NewItem onSubmit={this.addItem} />
-        <CountDown {...this.state} />
+        <CountDown />
         <Items
           title="Unpacked Items"
           items={unpackedItems}
           onRemove={this.removeItem}
           onToggle={this.toggleItem}
+          onCheckOff={this.markAsPacked}
         />
         <Items
           title="Packed Items"
           items={packedItems}
           onRemove={this.removeItem}
           onToggle={this.toggleItem}
+          onCheckOff={this.markAsPacked}
         />
-
         <button className="button full-width" onClick={this.markAllAsUnpacked}>
           Mark All As Unpacked
         </button>
@@ -83,4 +78,5 @@ class Application extends Component {
     );
   }
 }
+
 export default Application;

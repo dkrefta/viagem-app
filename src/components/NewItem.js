@@ -7,7 +7,7 @@ class NewItem extends Component {
   state = { value: "" };
 
   handleChange = event => {
-    const value = event.target.value;
+    const value = event.target.value
     this.setState({ value})
   };
 
@@ -16,10 +16,8 @@ class NewItem extends Component {
     const { value } = this.state;
 
     event.preventDefault();
-
-    onSubmit({value, id: uniqueId, packed: false});
+    onSubmit({value, id: uniqueId, packed: false})
     this.setState({ value: ''})
-
   };
 
   render() {

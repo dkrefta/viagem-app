@@ -3,14 +3,14 @@ import './Item.css';
 
 class Item extends Component {
   render() {
-    const { item, onRemove } = this.props;
+    const { item, onRemove, onCheckOff } = this.props;
     return (
       <article className="Item">
         <label htmlFor={item.id}>
           <input
             type="checkbox"
             checked={item.packed}
-            onChange={() => this.props.onToggle(item)}
+            onChange={onCheckOff}
             id={item.id}
           />
           {item.value}
